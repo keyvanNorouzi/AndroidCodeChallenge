@@ -5,10 +5,8 @@ import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.snackbar.Snackbar
-import org.koin.androidx.viewmodel.ext.android.stateViewModel
-import kotlin.reflect.KClass
 
-abstract class BaseActivity<VB : ViewBinding, VM : BaseViewModel> : AppCompatActivity() {
+abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
     private var _binding: ViewBinding? = null
     abstract val bindingInflater: (LayoutInflater) -> VB
@@ -16,10 +14,6 @@ abstract class BaseActivity<VB : ViewBinding, VM : BaseViewModel> : AppCompatAct
     @Suppress("UNCHECKED_CAST")
     protected val binding: VB
         get() = _binding as VB
-
-    abstract fun getViewModelJavaClass(): KClass<VM>
-
-    val viewModel: VM by stateViewModel(clazz = getViewModelJavaClass())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
