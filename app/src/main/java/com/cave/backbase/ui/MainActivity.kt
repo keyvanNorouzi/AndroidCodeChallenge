@@ -1,7 +1,7 @@
 package com.cave.backbase.ui
 
 import android.view.LayoutInflater
-import com.cave.backbase.base.BaseActivity
+import com.cave.backbase.base.activity.BaseActivity
 import com.cave.backbase.databinding.ActivityMainBinding
 import kotlin.reflect.KClass
 

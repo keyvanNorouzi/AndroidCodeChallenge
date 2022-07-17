@@ -1,4 +1,4 @@
-package com.cave.backbase.base
+package com.cave.backbase.base.activity
 
 import android.os.Bundle
 import android.view.LayoutInflater
