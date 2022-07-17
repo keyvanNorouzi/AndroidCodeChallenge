@@ -1,5 +1,5 @@
 package com.cave.backbase.ui
 
-import androidx.lifecycle.ViewModel
+import com.cave.backbase.base.BaseViewModel
 
-class MainViewModel : ViewModel()
+class MainViewModel : BaseViewModel()
