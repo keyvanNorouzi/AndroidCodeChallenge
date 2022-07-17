@@ -1,4 +1,4 @@
-package com.cave.backbase.base
+package com.cave.backbase.base.activity
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope
