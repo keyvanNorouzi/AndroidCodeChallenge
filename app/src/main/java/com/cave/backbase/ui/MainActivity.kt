@@ -1,7 +1,8 @@
-package com.cave.backbase
+package com.cave.backbase.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.cave.backbase.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
