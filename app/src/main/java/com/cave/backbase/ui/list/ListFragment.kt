@@ -13,6 +13,7 @@ import com.cave.backbase.data.model.Result
 import com.cave.backbase.databinding.FragmentListBinding
 import com.cave.backbase.databinding.ItemCityListBinding
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.stateViewModel
 
 class ListFragment : BaseFragment<FragmentListBinding, ListViewModel>() {
@@ -27,8 +28,8 @@ class ListFragment : BaseFragment<FragmentListBinding, ListViewModel>() {
         ArrayList<City>()
     }
 
-    private val cityAdapter: ListAdapter =
-        ListAdapter(
+    private val cityAdapter: CityListAdapter =
+        CityListAdapter(
             inflate = { li, parent, attach ->
                 ItemCityListBinding.inflate(
                     li,

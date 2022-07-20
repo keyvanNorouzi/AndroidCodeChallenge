@@ -22,6 +22,7 @@ class CitiesRepositoryImp(
     override fun getNextCities(lastItemIndex: Int, numberOfRows: Int): Flow<Result<List<City>>> =
         flow {
             if (cities == null) {
+                emit(Result.Loading)
                 when (val result = citiesLocal.getCitiesList()) {
                     is Result.Loading -> {
                         emit(Result.Loading)

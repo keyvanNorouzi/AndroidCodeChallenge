@@ -8,7 +8,7 @@ import com.cave.backbase.data.model.City
 import com.cave.backbase.databinding.ItemCityListBinding
 import java.text.MessageFormat
 
-class ListAdapter(
+class CityListAdapter(
     val inflate: (layoutInflater: LayoutInflater, parent: ViewGroup?, attachToParent: Boolean) -> ViewBinding
 ) :
     com.cave.backbase.base.adapter.BaseAdapter<City>(
