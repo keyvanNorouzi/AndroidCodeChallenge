@@ -8,5 +8,5 @@ import org.koin.dsl.module
 
 val citiesRepositoryModule = module {
     single<CitiesLocal> { CitiesLocalImp() }
-    single<CitiesRepository> { CitiesRepositoryImp() }
+    single<CitiesRepository> { CitiesRepositoryImp(citiesLocal = get(), coroutineContextProvider = get()) }
 }

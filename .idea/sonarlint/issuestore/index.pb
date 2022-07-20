@@ -1,8 +1,6 @@
 
 f
 6app/src/main/java/com/cave/backbase/ui/MainActivity.kt,4/1/418d536c66351c59e692fbf8f6b4e37190c14911
-l
-<app/src/main/java/com/cave/backbase/ui/list/ListViewModel.kt,6/b/6b31ca72c251418e69e4606778757695ce17aa56
 @
 app/build.gradle,f/4/f4a01d6a4fcb971362ec00a83903fd3902f52164
 <
