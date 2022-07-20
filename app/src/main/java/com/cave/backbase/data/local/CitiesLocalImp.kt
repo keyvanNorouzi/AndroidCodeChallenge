@@ -1,6 +1,5 @@
 package com.cave.backbase.data.local
 
-import android.content.Context
 import android.content.res.AssetManager
 import android.content.res.AssetManager.ACCESS_STREAMING
 import com.cave.backbase.data.model.City
