@@ -16,7 +16,7 @@ class ListViewModel(
 
     fun getList() {
         viewModelScope.launch {
-            citiesRepository.getCitiesList().collect { result ->
+            citiesRepository.fetchCities().collect { result ->
                 when (result) {
                     is Result.Loading -> {
                         Log.i("getList", "Loading")
