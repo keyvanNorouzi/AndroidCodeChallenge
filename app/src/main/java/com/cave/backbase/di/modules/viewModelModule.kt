@@ -7,6 +7,6 @@ import org.koin.dsl.module
 
 val viewModelModule = module {
     viewModel { (handle: SavedStateHandle) ->
-        ListViewModel(handle)
+        ListViewModel(handle, citiesRepository = get())
     }
 }
