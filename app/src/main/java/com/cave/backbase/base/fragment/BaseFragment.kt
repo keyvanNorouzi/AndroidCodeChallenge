@@ -11,11 +11,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
-import org.koin.androidx.viewmodel.ext.android.stateViewModel
 import kotlin.coroutines.CoroutineContext
-import kotlin.reflect.KClass
 
-abstract class BaseFragment <VB : ViewBinding, VM : BaseViewModel> : Fragment(), CoroutineScope {
+abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel> : Fragment(), CoroutineScope {
     private var _binding: ViewBinding? = null
     abstract val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> VB
 
@@ -26,10 +24,6 @@ abstract class BaseFragment <VB : ViewBinding, VM : BaseViewModel> : Fragment(),
     private val job = Job()
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.Main
-
-    val viewModel: VM by stateViewModel(clazz = getViewModelJavaClass())
-
-    abstract fun getViewModelJavaClass(): KClass<VM>
 
     override fun onCreateView(
         inflater: LayoutInflater,

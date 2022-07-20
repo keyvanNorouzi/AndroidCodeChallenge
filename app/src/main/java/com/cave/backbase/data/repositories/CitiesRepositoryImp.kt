@@ -13,6 +13,6 @@ class CitiesRepositoryImp(
 ) : CitiesRepository {
     override fun getCitiesList(): kotlinx.coroutines.flow.Flow<Result<List<City>>> = flow {
         emit(Result.Loading)
-        emit(Result.Success(citiesLocal.getCitiesList()))
+        emit(citiesLocal.getCitiesList())
     }.flowOn(coroutineContextProvider.io)
 }
