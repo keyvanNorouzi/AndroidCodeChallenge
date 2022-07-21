@@ -1,6 +1,7 @@
 package com.cave.backbase.ui.list
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +13,11 @@ import com.cave.backbase.data.model.City
 import com.cave.backbase.data.model.Result
 import com.cave.backbase.databinding.FragmentListBinding
 import com.cave.backbase.databinding.ItemCityListBinding
+import com.cave.backbase.utils.extentions.textInputAsFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.stateViewModel
 
 class ListFragment : BaseFragment<FragmentListBinding, ListViewModel>() {
@@ -50,6 +55,35 @@ class ListFragment : BaseFragment<FragmentListBinding, ListViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initList()
+        binding.edtSearch.textInputAsFlow().debounce(100).onEach { text ->
+            if (!TextUtils.isEmpty(text)) {
+                lifecycleScope.launchWhenStarted {
+                    viewModel.searchCityWithPrefix(text.toString()).collect { result ->
+                        result?.let {
+                            when (result) {
+                                is Result.Loading -> {
+                                    showSearchLoading()
+                                }
+                                is Result.Success -> {
+                                    dismissSearchLoading()
+                                    val newArray = ArrayList<City>()
+                                    result.data?.let {
+                                        newArray.addAll(it)
+                                        cityAdapter.submitList(newArray)
+                                    }
+                                }
+                                is Result.Error -> {
+                                    dismissSearchLoading()
+                                    // TODO implement Error message
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                cityAdapter.submitList(cities)
+            }
+        }.launchIn(lifecycleScope)
     }
 
     private fun initList() {
@@ -94,6 +128,16 @@ class ListFragment : BaseFragment<FragmentListBinding, ListViewModel>() {
 
     private fun dismissDataLoading() {
         binding.pbLoading.visibility = View.GONE
+        loading = false
+    }
+
+    private fun showSearchLoading() {
+        binding.linearPbLoading.visibility = View.VISIBLE
+        loading = true
+    }
+
+    private fun dismissSearchLoading() {
+        binding.linearPbLoading.visibility = View.GONE
         loading = false
     }
 

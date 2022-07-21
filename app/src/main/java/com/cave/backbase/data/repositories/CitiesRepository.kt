@@ -6,4 +6,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface CitiesRepository {
     fun getNextCities(lastItemIndex: Int, numberOfRows: Int = 100): Flow<Result<List<City>>>
+    fun searchCityByPrefix(prefix: String): Flow<Result<List<City>>?>
 }
