@@ -24,6 +24,7 @@
       <map>
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.22447916666666667" />
         <entry key="app/src/main/res/layout/fragment_list.xml" value="0.2234375" />
+        <entry key="app/src/main/res/layout/item_city_list.xml" value="0.2234375" />
       </map>
     </option>
   </component>

@@ -14,7 +14,7 @@ class CitiesRepositoryImp(
 ) : CitiesRepository {
     private var cities: List<City>? = null
 
-    override fun fetchCities(): Flow<Result<List<City>>> = flow {
+    private fun fetchCities(): Flow<Result<List<City>>> = flow {
         emit(Result.Loading)
         emit(citiesLocal.getCitiesList())
     }.flowOn(coroutineContextProvider.io)
@@ -22,13 +22,21 @@ class CitiesRepositoryImp(
     override fun getNextCities(lastItemIndex: Int, numberOfRows: Int): Flow<Result<List<City>>> =
         flow {
             if (cities == null) {
+                emit(Result.Loading)
                 when (val result = citiesLocal.getCitiesList()) {
                     is Result.Loading -> {
                         emit(Result.Loading)
                     }
                     is Result.Success -> {
                         cities = result.data
-                        emit(Result.Success(getCitiesFormList(lastItemIndex, lastItemIndex + numberOfRows)))
+                        emit(
+                            Result.Success(
+                                getCitiesFormList(
+                                    lastItemIndex,
+                                    lastItemIndex + numberOfRows
+                                )
+                            )
+                        )
                     }
                     is Result.Error -> {
                         emit(Result.Error(result.exception))
