@@ -2,6 +2,7 @@ package com.cave.backbase.ui.list
 
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +15,11 @@ import com.cave.backbase.data.model.City
 import com.cave.backbase.data.model.Result
 import com.cave.backbase.databinding.FragmentListBinding
 import com.cave.backbase.databinding.ItemCityListBinding
+import com.cave.backbase.utils.extentions.textInputAsFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.stateViewModel
 
 class ListFragment : BaseFragment<FragmentListBinding, ListViewModel>() {
@@ -52,7 +57,7 @@ class ListFragment : BaseFragment<FragmentListBinding, ListViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initList()
-        binding.edtSearch.doAfterTextChanged { text ->
+        binding.edtSearch.textInputAsFlow().debounce(100).onEach { text ->
             if (!TextUtils.isEmpty(text)) {
                 lifecycleScope.launchWhenStarted {
                     viewModel.searchCityWithPrefix(text.toString()).collect { result ->
@@ -78,7 +83,7 @@ class ListFragment : BaseFragment<FragmentListBinding, ListViewModel>() {
             } else {
                 cityAdapter.submitList(cities)
             }
-        }
+        }.launchIn(lifecycleScope)
     }
 
     private fun initList() {
