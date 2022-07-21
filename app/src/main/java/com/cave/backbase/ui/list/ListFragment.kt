@@ -13,7 +13,6 @@ import com.cave.backbase.data.model.Result
 import com.cave.backbase.databinding.FragmentListBinding
 import com.cave.backbase.databinding.ItemCityListBinding
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.stateViewModel
 
 class ListFragment : BaseFragment<FragmentListBinding, ListViewModel>() {
@@ -101,22 +100,16 @@ class ListFragment : BaseFragment<FragmentListBinding, ListViewModel>() {
     private fun initPaging() {
         binding.rvList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                if (dy != 0) {
-                    if (dy > 0) {
-                        val layoutManager =
-                            (binding.rvList.layoutManager as LinearLayoutManager)
-                        visibleItemCount = layoutManager.childCount
-                        totalItemCount = layoutManager.itemCount
-                        pastVisibleItems = layoutManager.findFirstVisibleItemPosition()
-                        if (totalItemCount >= 10) {
-                            if (!loading) {
-                                if (visibleItemCount + pastVisibleItems >= totalItemCount) {
-                                    currentPage += 1
-                                    loading = true
-                                    getListData()
-                                }
-                            }
-                        }
+                if (dy != 0 && dy > 0) {
+                    val layoutManager =
+                        (binding.rvList.layoutManager as LinearLayoutManager)
+                    visibleItemCount = layoutManager.childCount
+                    totalItemCount = layoutManager.itemCount
+                    pastVisibleItems = layoutManager.findFirstVisibleItemPosition()
+                    if (totalItemCount >= 10 && !loading && visibleItemCount + pastVisibleItems >= totalItemCount) {
+                        currentPage += 1
+                        loading = true
+                        getListData()
                     }
                 }
             }
