@@ -11,4 +11,7 @@ class ListViewModel(
 
     fun getListData(lastIndex: Int) =
         citiesRepository.getNextCities(lastItemIndex = lastIndex)
+
+    fun searchCityWithPrefix(prefix: String) {
+    }
 }
