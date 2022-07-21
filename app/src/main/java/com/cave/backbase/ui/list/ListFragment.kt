@@ -2,11 +2,9 @@ package com.cave.backbase.ui.list
 
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -64,9 +62,10 @@ class ListFragment : BaseFragment<FragmentListBinding, ListViewModel>() {
                         result?.let {
                             when (result) {
                                 is Result.Loading -> {
-                                    // TODO implement loading
+                                    showSearchLoading()
                                 }
                                 is Result.Success -> {
+                                    dismissSearchLoading()
                                     val newArray = ArrayList<City>()
                                     result.data?.let {
                                         newArray.addAll(it)
@@ -74,6 +73,7 @@ class ListFragment : BaseFragment<FragmentListBinding, ListViewModel>() {
                                     }
                                 }
                                 is Result.Error -> {
+                                    dismissSearchLoading()
                                     // TODO implement Error message
                                 }
                             }
@@ -128,6 +128,16 @@ class ListFragment : BaseFragment<FragmentListBinding, ListViewModel>() {
 
     private fun dismissDataLoading() {
         binding.pbLoading.visibility = View.GONE
+        loading = false
+    }
+
+    private fun showSearchLoading() {
+        binding.linearPbLoading.visibility = View.VISIBLE
+        loading = true
+    }
+
+    private fun dismissSearchLoading() {
+        binding.linearPbLoading.visibility = View.GONE
         loading = false
     }
 

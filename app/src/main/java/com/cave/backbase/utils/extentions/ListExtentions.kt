@@ -1,6 +1,6 @@
 package com.cave.backbase.utils.extentions
 
-fun List<com.cave.backbase.data.model.City>.prefixSearch(
+fun <T> List<com.cave.backbase.data.model.City>.prefixSearch(
     fromIndex: Int = 0,
     toIndex: Int = size,
     prefix: String,
