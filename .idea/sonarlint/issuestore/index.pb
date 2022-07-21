@@ -1,6 +1,4 @@
 
-f
-6app/src/main/java/com/cave/backbase/ui/MainActivity.kt,4/1/418d536c66351c59e692fbf8f6b4e37190c14911
 ?
 settings.gradle,0/5/05efc8b1657769a27696d478ded1e95f38737233
 x
@@ -21,12 +19,5 @@ q
 Aapp/src/main/java/com/cave/backbase/base/fragment/BaseFragment.kt,5/9/593bdbbdd41c19727619053975736bfd94d1483e
 r
 Bapp/src/main/java/com/cave/backbase/base/activity/BaseViewModel.kt,4/6/46c5323021104719b87d45569af9907be6435dca
-:
-
-.gitignore,a/5/a5cc2925ca8258af241be7e5b0381edf30266302
-<
-build.gradle,f/0/f07866736216be0ee2aba49e392191aeae700a35
-@
-app/build.gradle,f/4/f4a01d6a4fcb971362ec00a83903fd3902f52164
 f
 6app/src/main/java/com/cave/backbase/data/model/City.kt,d/a/da9f380d4610a4116772f590009297aebae98d99

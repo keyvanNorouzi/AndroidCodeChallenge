@@ -13,7 +13,10 @@ import com.cave.backbase.data.model.City
 import com.cave.backbase.data.model.Result
 import com.cave.backbase.databinding.FragmentListBinding
 import com.cave.backbase.databinding.ItemCityListBinding
+import com.cave.backbase.utils.extentions.enable
+import com.cave.backbase.utils.extentions.gone
 import com.cave.backbase.utils.extentions.textInputAsFlow
+import com.cave.backbase.utils.extentions.visible
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.launchIn
@@ -103,6 +106,7 @@ class ListFragment : BaseFragment<FragmentListBinding, ListViewModel>() {
                         dismissDataLoading()
                         result.data?.let {
                             if (cities.size < 1) {
+                                enableSearching()
                                 cities.addAll(it)
                                 cityAdapter.submitList(cities)
                             } else {
@@ -121,23 +125,27 @@ class ListFragment : BaseFragment<FragmentListBinding, ListViewModel>() {
         }
     }
 
+    private fun enableSearching() {
+        binding.edtSearch.enable()
+    }
+
     private fun shodDataLoading() {
-        binding.pbLoading.visibility = View.VISIBLE
+        binding.pbLoading.visible()
         loading = true
     }
 
     private fun dismissDataLoading() {
-        binding.pbLoading.visibility = View.GONE
+        binding.pbLoading.gone()
         loading = false
     }
 
     private fun showSearchLoading() {
-        binding.linearPbLoading.visibility = View.VISIBLE
+        binding.linearPbLoading.visible()
         loading = true
     }
 
     private fun dismissSearchLoading() {
-        binding.linearPbLoading.visibility = View.GONE
+        binding.linearPbLoading.gone()
         loading = false
     }
 
