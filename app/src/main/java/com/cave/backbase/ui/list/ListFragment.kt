@@ -1,5 +1,7 @@
 package com.cave.backbase.ui.list
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
@@ -9,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cave.backbase.base.fragment.BaseFragment
+import com.cave.backbase.base.interfaces.BaseListInterface
 import com.cave.backbase.data.model.City
 import com.cave.backbase.data.model.Result
 import com.cave.backbase.databinding.FragmentListBinding
@@ -43,6 +46,11 @@ class ListFragment : BaseFragment<FragmentListBinding, ListViewModel>() {
                     parent,
                     attach
                 )
+            },
+            object : BaseListInterface<City> {
+                override fun onItemClicked(item: City) {
+                    navigateToShowMap(item = item)
+                }
             }
         )
 
@@ -166,5 +174,12 @@ class ListFragment : BaseFragment<FragmentListBinding, ListViewModel>() {
                 }
             }
         })
+    }
+
+    private fun navigateToShowMap(item: City) {
+        val gmmIntentUri = Uri.parse("geo:0,0?q=" + item.coord.lat + "," + item.coord.lon)
+        val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+        mapIntent.setPackage("com.google.android.apps.maps")
+        startActivity(mapIntent)
     }
 }
