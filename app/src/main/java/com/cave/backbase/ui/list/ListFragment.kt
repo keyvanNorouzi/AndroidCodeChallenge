@@ -1,9 +1,11 @@
 package com.cave.backbase.ui.list
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -50,6 +52,33 @@ class ListFragment : BaseFragment<FragmentListBinding, ListViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initList()
+        binding.edtSearch.doAfterTextChanged { text ->
+            if (!TextUtils.isEmpty(text)) {
+                lifecycleScope.launchWhenStarted {
+                    viewModel.searchCityWithPrefix(text.toString()).collect { result ->
+                        result?.let {
+                            when (result) {
+                                is Result.Loading -> {
+                                    // TODO implement loading
+                                }
+                                is Result.Success -> {
+                                    val newArray = ArrayList<City>()
+                                    result.data?.let {
+                                        newArray.addAll(it)
+                                        cityAdapter.submitList(newArray)
+                                    }
+                                }
+                                is Result.Error -> {
+                                    // TODO implement Error message
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                cityAdapter.submitList(cities)
+            }
+        }
     }
 
     private fun initList() {

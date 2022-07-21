@@ -4,6 +4,7 @@ import com.cave.backbase.data.local.CitiesLocal
 import com.cave.backbase.data.model.City
 import com.cave.backbase.data.model.Result
 import com.cave.backbase.utils.CoroutineContextProvider
+import com.cave.backbase.utils.extentions.prefixSearch
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -47,7 +48,24 @@ class CitiesRepositoryImp(
             }
         }.flowOn(coroutineContextProvider.io)
 
+    override fun searchCityByPrefix(prefix: String): Flow<Result<List<City>>?> = flow {
+        emit(Result.Loading)
+        emit(
+            Result.Success(
+                cities!!.prefixSearch<City>(
+                    fromIndex = 0,
+                    toIndex = cities!!.size,
+                    prefix = prefix
+                )
+            )
+        )
+    }.flowOn(coroutineContextProvider.io)
+
     private fun getCitiesFormList(fromIndex: Int, toIndex: Int): List<City>? {
-        return cities?.subList(fromIndex, toIndex)
+        return if (toIndex > (cities?.size ?: 0)) {
+            return cities?.subList(fromIndex, ((cities?.size ?: 0) - 1))
+        } else {
+            cities?.subList(fromIndex, toIndex)
+        }
     }
 }
