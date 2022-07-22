@@ -13,10 +13,17 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        navigateToListFragment()
+        if ((savedInstanceState?.getInt("rotated", 0) ?: 0) == 0) {
+            navigateToListFragment()
+        }
     }
 
-    fun navigateToListFragment(){
+    private fun navigateToListFragment() {
         showFragment(ListFragment.newInstance())
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt("rotated", 1)
     }
 }

@@ -12,6 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:name=".app.App"
+        android:configChanges="orientation|keyboardHidden"
         android:theme="@style/Theme.BackBase"
         tools:targetApi="31">
         <activity

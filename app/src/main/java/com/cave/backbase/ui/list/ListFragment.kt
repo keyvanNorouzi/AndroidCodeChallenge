@@ -7,6 +7,7 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -65,7 +66,6 @@ class ListFragment : BaseFragment<FragmentListBinding, ListViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initList()
         binding.edtSearch.textInputAsFlow().debounce(100).onEach { text ->
             if (!TextUtils.isEmpty(text)) {
                 lifecycleScope.launchWhenStarted {
@@ -85,7 +85,7 @@ class ListFragment : BaseFragment<FragmentListBinding, ListViewModel>() {
                                 }
                                 is Result.Error -> {
                                     dismissSearchLoading()
-                                    // TODO implement Error message
+                                    Toast.makeText(requireContext(), result.exception, Toast.LENGTH_SHORT).show()
                                 }
                             }
                         }
@@ -95,6 +95,19 @@ class ListFragment : BaseFragment<FragmentListBinding, ListViewModel>() {
                 cityAdapter.submitList(cities)
             }
         }.launchIn(lifecycleScope)
+
+        if ((savedInstanceState?.getInt("rotated", 0) ?: 0) == 0) {
+            initList()
+        } else {
+            binding.rvList.adapter = cityAdapter
+            initPaging()
+            if (savedInstanceState != null) {
+                ((savedInstanceState.getSerializable("cities")) as? ArrayList<City>)?.let {
+                    cities.addAll(it)
+                }
+            }
+            cityAdapter.submitList(cities)
+        }
     }
 
     private fun initList() {
@@ -181,5 +194,11 @@ class ListFragment : BaseFragment<FragmentListBinding, ListViewModel>() {
         val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
         mapIntent.setPackage("com.google.android.apps.maps")
         startActivity(mapIntent)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt("rotated", 1)
+        outState.putSerializable("cities", cities)
     }
 }
