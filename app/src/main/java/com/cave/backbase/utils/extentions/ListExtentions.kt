@@ -16,7 +16,7 @@ fun <T> List<com.cave.backbase.data.model.City>.prefixSearch(
     while (low <= high) {
         val mid = (low + high).ushr(1) // safe from overflows
         val midVal = get(mid)
-        if (prefix.compareTo(midVal.city, ignoreCase = ignoreCase) < 0) {
+        if (prefix.compareTo(midVal.city, ignoreCase = ignoreCase) <= 0) {
             if (midVal.city.startsWith(prefix, ignoreCase = ignoreCase)) {
                 leftIndex = mid
                 rightIndex = mid
@@ -28,7 +28,7 @@ fun <T> List<com.cave.backbase.data.model.City>.prefixSearch(
                     }
                 }
                 while (rightIndex < this.size) {
-                    if (this[rightIndex + 1].city.startsWith(prefix, ignoreCase = ignoreCase)) {
+                    if (this[rightIndex].city.startsWith(prefix, ignoreCase = ignoreCase)) {
                         rightIndex++
                     } else {
                         break
@@ -47,9 +47,6 @@ fun <T> List<com.cave.backbase.data.model.City>.prefixSearch(
             }
         } else if (prefix > midVal.city) {
             low = mid + 1
-            if (low == high) {
-                return null
-            }
         } else {
             return this.subList(mid, mid)
         }
